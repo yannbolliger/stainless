@@ -27,17 +27,14 @@ package object proof {
   implicit def boolean2ProofOps(prop: Boolean): ProofOps = ProofOps(prop)
 
   @library
-  def trivial: Boolean = true
-
-  @library
   def by(proof: Boolean)(prop: Boolean): Boolean =
     proof && prop
 
   @library // @ghost
-  def check(prop: Boolean): Boolean = {
+  def check(prop: Boolean): Unit = {
     require(prop)
-    prop
-  }.holds
+    ()
+  }.ensuring(_ => prop)
 
   /**
    * Relational reasoning.
